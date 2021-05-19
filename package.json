@@ -1,0 +1,23 @@
+{
+  "name": "empires-server",
+  "version": "1.0.0",
+  "description": "A server for the game empires",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gregormaclaine/empires-game.git"
+  },
+  "author": "Gregor Maclaine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gregormaclaine/empires-game/issues"
+  },
+  "homepage": "https://github.com/gregormaclaine/empires-game#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.1.2"
+  }
+}
