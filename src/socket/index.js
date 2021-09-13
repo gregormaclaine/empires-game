@@ -1,0 +1,17 @@
+import io from 'socket.io-client';
+
+let socket;
+
+export const initialise = () => {
+  socket = io('http://localhost:3001');
+  console.log(`Connecting socket...`);
+}
+
+export const disconnect = () => {
+  console.log('Disconnecting socket...');
+  if(socket) socket.disconnect();
+}
+
+export const emit = (event, data, callback) => {
+  if (socket) socket.emit(event, data, callback);
+}

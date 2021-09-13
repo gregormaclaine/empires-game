@@ -1,6 +1,6 @@
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
-import { HomeView, PlayView, CreateView } from './views';
+import { HomeView, PlayView, CreateView, LobbyView } from './views';
 import { THEME } from './config';
 
 const Container = styled.div`
@@ -20,6 +20,7 @@ function App() {
         <Router>
           <Switch>
             <Route path='/play' exact component={PlayView} />
+            <Route path='/lobby' exact component={LobbyView} />
             <Route path='/create' exact component={CreateView} />
             <Route path='/' exact component={HomeView} />
           </Switch>
