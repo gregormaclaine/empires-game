@@ -33,7 +33,7 @@ io.on('connection', socket => {
 
     const { error, players } = room.add_player({ player_name, socket }) || {};
     if (error) return callback({ status: 'fail', message: error });
-    callback({ status: 'success', players });
+    callback({ status: 'success', players, room_code });
   });
 
   socket.on('disconnect', () => {

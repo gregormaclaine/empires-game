@@ -7,7 +7,7 @@ class Room {
     this.collapse = collapse;
     this.player_names = new WeakMap();
 
-    socket.join(this.get_socket);
+    socket.join(this.socket_room);
     this.sockets = [socket];
     this.player_names.set(socket, player_name);
   }
@@ -25,10 +25,10 @@ class Room {
   }
 
   add_player({ player_name, socket }) {
-    if (this.get_players().any(p => player_name === p.name))
+    if (this.get_players().some(p => player_name === p.name))
       return { error: 'Name is already taken' };
     
-    socket.join(this.get_socket);
+    socket.join(this.socket_room);
     this.sockets.push(socket);
     this.player_names.set(socket, player_name);
 

@@ -1,7 +1,7 @@
 const Room = require('./Room');
 
 function random_code() {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const alphabet = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
   return Array(6).fill(0).map(() => alphabet[Math.floor(Math.random() * alphabet.length)]).join('');
 }
 
