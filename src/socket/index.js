@@ -15,3 +15,9 @@ export const disconnect = () => {
 export const emit = (event, data, callback) => {
   if (socket) socket.emit(event, data, callback);
 }
+
+export const listen = (event, listener) => {
+  if (!socket) throw new Error('Cannot create listener due to no socket');
+  socket.on(event, listener);
+  return () => socket.off(event, listener);
+}

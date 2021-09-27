@@ -18,7 +18,7 @@ const ButtonLink = styled(Link)`
 function HomeView() {
   return (
     <ButtonWrapper>
-      <ButtonLink to='/play'>
+      <ButtonLink to='/join'>
         <Button yellow>
           <span>Join a Game</span>
         </Button>
