@@ -11,17 +11,16 @@ const Wrapper = styled.div`
   grid-template-columns: 15% auto 15%;
   align-items: center;
   justify-items: center;
-  width: 15vw;
-  height: 4vw;
   border-radius: 5px;
-  padding: 4px 12px;
+  padding: 8px 20px;
   background-color: ${({ me }) => me ? 'rgba(255, 185, 0, 0.95)' : 'rgba(255, 255, 255, 0.9)'};
 `;
 
 const Profile = styled.div`
   grid-column: 1;
-  height: 2.5vw;
-  width: 2.5vw;
+  margin: 4px;
+  height: 1.8rem;
+  width: 1.8rem;
   border-radius: 30%;
   background-color: ${({ color }) => color};
   display: flex;
@@ -40,11 +39,13 @@ const DeleteIcon = styled.img`
 
 const Name = styled.span`
   grid-column: 2;
+  margin: 8px 12px;
+  font-size: 1.2rem;
 `;
 
 const HostCrown = styled.img`
   grid-column: 3;
-  height: 3.5vw;
+  height: 2.5rem;
   width: auto;
 `;
 
