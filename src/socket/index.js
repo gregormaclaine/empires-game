@@ -7,6 +7,8 @@ export const initialise = () => {
   console.log(`Connecting socket...`);
 }
 
+export const id = () => socket.id;
+
 export const disconnect = () => {
   console.log('Disconnecting socket...');
   if(socket) socket.disconnect();

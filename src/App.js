@@ -1,4 +1,5 @@
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import styled, { ThemeProvider } from 'styled-components';
 import { HomeView, PlayView, CreateView, JoinView, LobbyView } from './views';
 import { THEME } from './config';
@@ -26,6 +27,7 @@ function App() {
             <Route path='/' exact component={HomeView} />
           </Switch>
         </Router>
+        <ToastContainer position="top-center" autoClose={4000} />
       </Container>
     </ThemeProvider>
   );

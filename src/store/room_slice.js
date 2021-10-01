@@ -17,7 +17,19 @@ export const room_slice = createSlice({
     joined_game: (state, { payload: { room_code, players } }) => {
       return { ...state, status: 'joined', code: room_code, players };
     },
-    update_players: (state, { payload: players }) => ({ ...state, players })
+    update_players: (state, { payload: players }) => ({ ...state, players }),
+
+    deleting_player: (state, { payload: id }) => {
+      const player = state.players.find(p => p.id === id);
+      if (player) player.deleting = true;
+    },
+    deleted_player: (state, { payload: players }) => ({ ...state, players }),
+    failed_deleting_player: (state, { payload: { id, message } }) => {
+      const player = state.players.find(p => p.id === id);
+      if (player) player.deleting = false;
+      state.error = message;
+    },
+    leave_lobby: state => ({ ...state, status: '', players: [], code: null, is_host: false })
   }
 });
 
@@ -38,5 +50,14 @@ export const join_game = (player_name, room_code) => dispatch => {
 }
 
 export const update_players = players => dispatch => dispatch(SA.update_players(players));
+
+export const kick_player = id => dispatch => {
+  dispatch(SA.deleting_player(id));
+  socket.emit('lobby:kick-player', { id }, ({ status, message, players }) => {
+    dispatch(status === 'success' ? SA.deleted_player(players) : SA.failed_deleting_player({ id, message }));
+  });
+}
+
+export const leave_lobby = () => dispatch => dispatch(SA.leave_lobby())
 
 export default room_slice.reducer;

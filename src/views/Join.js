@@ -13,7 +13,7 @@ function JoinView() {
 
   useEffect(() => {
     if (room.status === 'joined' && room.code) history.push('/lobby');
-  }, [room, history])
+  }, [room, history]);
 
   return (
     <div>

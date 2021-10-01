@@ -5,6 +5,7 @@ import App from './App';
 import * as socket from './socket';
 import store from './store';
 import { Provider } from 'react-redux';
+import 'react-toastify/dist/ReactToastify.css';
 
 socket.initialise();
 
