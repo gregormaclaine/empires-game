@@ -10,6 +10,14 @@ class Room {
     socket.join(this.socket_room);
     this.sockets = [socket];
     this.player_names.set(socket, player_name);
+
+    socket.on('lobby:kick-player', ({ id }) => {
+      const s = this.sockets.find(s => s.id === id);
+      if (s) {
+        this.remove_player({ socket: s });
+        s.emit('lobby:kicked', { message: 'You were kicked by the host' });
+      }
+    });
   }
 
   get socket_room() {
@@ -41,11 +49,16 @@ class Room {
     return { players };
   }
 
-  remove_player({ socket }) {
+  remove_player({ socket, from_disconnect }) {
     if (!this.sockets.includes(socket)) throw new Error("Can't remove socket from room it's not in");
     
     this.sockets.splice(this.sockets.indexOf(socket), 1);
     this.player_names.delete(socket);
+
+    if (!from_disconnect) {
+      // When disconnecting, the socket is automatically removed from all rooms
+      socket.leave(this.socket_room);
+    }
 
     if (this.sockets.length === 0) return this.collapse();
 

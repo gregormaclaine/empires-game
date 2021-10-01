@@ -39,7 +39,7 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     console.log(`socket<${socket.id.slice(0, 6)}> has disconnected`)
     const room = game_manager.get_room_from_socket(socket);
-    if (room) room.remove_player({ socket })
+    if (room) room.remove_player({ socket,from_disconnect: true })
   })
 });
 
