@@ -9,7 +9,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"]
   }
 });
-const { PORT } = require('./config');
+const { PORT, DEBUG } = require('./config');
 const GameManager = require('./GameManager');
 
 app.get('/', (req, res) => {
@@ -20,6 +20,12 @@ const game_manager = new GameManager({ io });
 
 io.on('connection', socket => {
   console.log(`socket<${socket.id.slice(0, 6)}> has connected`);
+
+  if (DEBUG) {
+    socket.onAny(eventName => {
+      console.log(`- Socket<${socket.id.slice(0, 6)}> received event '${eventName}'`);
+    });
+  }
 
   socket.on('lobby:create-game', ({ player_name, config }, callback) => {
     const room_code = game_manager.create_new_game({ player_name, socket, config });

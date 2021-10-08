@@ -6,18 +6,12 @@ class Room {
     this.config = config;
     this.collapse = collapse;
     this.player_names = new WeakMap();
+    this.socket_listeners_closers = new WeakMap();
 
     socket.join(this.socket_room);
     this.sockets = [socket];
     this.player_names.set(socket, player_name);
-
-    socket.on('lobby:kick-player', ({ id }) => {
-      const s = this.sockets.find(s => s.id === id);
-      if (s) {
-        this.remove_player({ socket: s });
-        s.emit('lobby:kicked', { message: 'You were kicked by the host' });
-      }
-    });
+    this.apply_socket_listeners({ socket, host: true });
   }
 
   get socket_room() {
@@ -39,13 +33,13 @@ class Room {
     socket.join(this.socket_room);
     this.sockets.push(socket);
     this.player_names.set(socket, player_name);
+    this.apply_socket_listeners({ socket, host: false });
 
     // Update other clients on new user join
     const players = this.get_players();
     socket.to(this.socket_room).emit('lobby:update-players', { players });
 
     console.log(`socket<${socket.id.slice(0, 6)}> (${player_name}) has joined room<${this.room_code}>`);
-
     return { players };
   }
 
@@ -58,6 +52,7 @@ class Room {
     if (!from_disconnect) {
       // When disconnecting, the socket is automatically removed from all rooms
       socket.leave(this.socket_room);
+      this.remove_socket_listeners({ socket });
     }
 
     if (this.sockets.length === 0) return this.collapse();
@@ -67,6 +62,36 @@ class Room {
     this.io.to(this.socket_room).emit('lobby:update-players', { players });
 
     console.log(`socket<${socket.id.slice(0, 6)}> has left room<${this.room_code}>`);
+  }
+
+  apply_socket_listener(socket, event, listener) {
+    socket.on(event, listener);
+    const closer = () => socket.off(event, listener);
+
+    if (this.socket_listeners_closers.has(socket)) {
+      const closers = [...this.socket_listeners_closers.get(socket), closer]
+      this.socket_listeners_closers.set(socket, closers);
+    } else {
+      this.socket_listeners_closers.set(socket, [closer]);
+    }
+  }
+
+  apply_socket_listeners({ socket, host }) {
+    if (host) {
+      this.apply_socket_listener(socket, 'lobby:kick-player', ({ id }) => {
+        const s = this.sockets.find(s => s.id === id);
+        if (s) {
+          this.remove_player({ socket: s });
+          s.emit('lobby:kicked', { message: 'You were kicked by the host' });
+        }
+      });
+    }
+    this.apply_socket_listener(socket, 'lobby:leave', () => this.remove_player({ socket }))
+  }
+
+  remove_socket_listeners({ socket }) {
+    const closers = this.socket_listeners_closers.get(socket);
+    if (closers) closers.forEach(c => c());
   }
 }
 
