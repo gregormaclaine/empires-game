@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { LobbyPlayerTile } from '../components';
+import { BackArrow, LobbyPlayerTile } from '../components';
 import * as socket from '../socket';
-import { update_players, leave_lobby } from '../store/room_slice';
+import { leave_lobby, update_players } from '../store/room_slice';
 
 const RoomCodeWrapper = styled.div`
   width: 100%;
@@ -62,8 +62,15 @@ function LobbyView() {
     if (room.status !== 'joined' || !room.code) history.push('/');
   }, [room, history]);
 
+  const exit = () => {
+    socket.emit('lobby:leave');
+    dispatch(leave_lobby());
+    history.push('/');
+  }
+
   return (
     <div>
+      <BackArrow onClick={exit} />
       <RoomCodeWrapper>
         <RoomCode>{room.code}</RoomCode>
       </RoomCodeWrapper>
