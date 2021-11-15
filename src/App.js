@@ -1,8 +1,8 @@
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import styled, { ThemeProvider } from 'styled-components';
-import { HomeView, PlayView, CreateView, JoinView, LobbyView } from './views';
 import { THEME } from './config';
+import { ChooseCharacterView, CreateView, GameView, HomeView, JoinView, LobbyView } from './views';
 
 const Container = styled.div`
   width: 100vw;
@@ -21,11 +21,15 @@ function App() {
       <Container>
         <Router>
           <Switch>
-            <Route path='/play' exact component={PlayView} />
+            <Route path='/game' exact component={GameView} />
+            <Route path='/choose-character' exact component={ChooseCharacterView} />
             <Route path='/lobby' exact component={LobbyView} />
             <Route path='/create' exact component={CreateView} />
             <Route path='/join' exact component={JoinView} />
             <Route path='/' exact component={HomeView} />
+            <Route>
+              <Redirect to='/' />
+            </Route>
           </Switch>
         </Router>
         <ToastContainer position="top-center" autoClose={4000} />

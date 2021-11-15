@@ -5,13 +5,16 @@ export const game_slice = createSlice({
   name: 'room',
   initialState: {
     state_status: '', // '' | 'between' | 'in'
-    state: '', // '' | 'character-choosing' | '',
+    state: '', // '' | 'character-choosing' | 'game',
+    character: null,
     error: null
   },
   reducers: {
     set_error: (state, { payload: error }) => ({ ...state, error }),
     beginning_character_picking: state => ({ ...state, state_status: 'between' }),
-    begin_character_picking: state => ({ ...state, state_status: 'in', state: 'character-choosing' })
+    begin_character_picking: state => ({ ...state, state_status: 'in', state: 'character-choosing' }),
+    chosen_character: (state, { payload: character }) => ({ ...state, character, state_status: 'between' }),
+    start_game: state => ({ ...state, state: 'game', state_status: 'in' })
   }
 });
 
@@ -27,6 +30,16 @@ export const begin_character_picking = callback => dispatch => {
 
 export const begun_character_picking = () => dispatch => {
   dispatch(SA.begin_character_picking());
+}
+
+export const submit_character_name = character => dispatch => {
+  socket.emit('lobby:choose-character', { character }, ({ status, message }) => {
+    dispatch(status === 'success' ? SA.chosen_character(character) : SA.set_error(message));
+  });
+}
+
+export const game_starting = () => dispatch => {
+  dispatch(SA.start_game());
 }
 
 export default game_slice.reducer;
