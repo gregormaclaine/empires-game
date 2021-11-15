@@ -11,7 +11,7 @@ function CreateView() {
   const [player_name, set_player_name] = useState('');
 
   useEffect(() => {
-    if (room.status === 'joined' && room.code) history.push('/lobby');
+    if (room.status === 'joined' && room.code) history.replace('/lobby');
   }, [room, history])
 
   return (

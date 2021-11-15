@@ -12,7 +12,7 @@ function JoinView() {
   const [room_code, set_room_code] = useState('');
 
   useEffect(() => {
-    if (room.status === 'joined' && room.code) history.push('/lobby');
+    if (room.status === 'joined' && room.code) history.replace('/lobby');
   }, [room, history]);
 
   return (

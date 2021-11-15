@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { BackArrow, LobbyPlayerTile } from '../components';
+import { BackArrow, Button, LobbyPlayerTile } from '../components';
 import * as socket from '../socket';
+import { begin_character_picking, begun_character_picking } from '../store/game_slice';
 import { leave_lobby, update_players } from '../store/room_slice';
 
 const RoomCodeWrapper = styled.div`
@@ -38,6 +39,14 @@ const PlayerTilesWrapper = styled.div`
   }
 `;
 
+const StartButton = styled(Button)`
+  position: fixed;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+`;
+
 function LobbyView() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -51,21 +60,31 @@ function LobbyView() {
       }),
       socket.listen('lobby:kicked', ({ message }) => {
         dispatch(leave_lobby());
-        history.push('/');
+        history.replace('/');
         toast.error(message);
+      }),
+      socket.listen('lobby:choose-character', () => {
+        dispatch(begun_character_picking());
+        history.replace('/choose-character');
       })
     ];
     return () => closers.map(c => c());
   });
 
   useEffect(() => {
-    if (room.status !== 'joined' || !room.code) history.push('/');
+    if (room.status !== 'joined' || !room.code) history.replace('/');
   }, [room, history]);
 
   const exit = () => {
     socket.emit('lobby:leave');
     dispatch(leave_lobby());
-    history.push('/');
+    history.replace('/');
+  }
+
+  const start = () => {
+    dispatch(begin_character_picking(({ status }) => {
+      if (status === 'success') history.replace('/choose-character');
+    }));
   }
 
   return (
@@ -79,6 +98,11 @@ function LobbyView() {
           <LobbyPlayerTile {...player} key={player.id} admin={admin} />
         ))}
       </PlayerTilesWrapper>
+      {admin && (
+        <StartButton onClick={start}>
+          <span>Start Game</span>
+        </StartButton>
+      )}
     </div>
   );
 }
