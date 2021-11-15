@@ -1,7 +1,7 @@
 const ListenerCollection = require('../ListenerCollection');
 
 class RoomState {
-  constructor(room) {
+  constructor(room, params) {
     this.room = room;
     this.listeners = new ListenerCollection();
 
@@ -19,7 +19,7 @@ class RoomState {
   apply_listeners(socket, is_host) {
     if (is_host) {
       this.listeners.apply(socket, 'lobby:start-character-stage', ({}, callback) => {
-        this.room.change_state('characters');
+        this.room.change_state('characters', {});
         socket.to(this.room.socket_room).emit('lobby:choose-character');
         callback({ status: 'success' });
       });

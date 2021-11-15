@@ -1,7 +1,7 @@
 const RoomState = require('./RoomState');
 
 class CharacterState extends RoomState {
-  constructor(room) {
+  constructor(room, params) {
     super(room);
     this.characters = new WeakMap();
   }
@@ -19,6 +19,7 @@ class CharacterState extends RoomState {
       if (this.choosers_left === 0) {
         console.log(`Emitting event to begin the game`);
         this.room.io.to(this.room.socket_room).emit('lobby:game_starting');
+        this.room.change_state('game', { characters: this.characters });
       }
     });
   }

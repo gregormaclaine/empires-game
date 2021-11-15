@@ -14,6 +14,7 @@ class ListenerCollection {
       this.closers.set(socket, [closer]);
     }
   }
+  
   remove_socket({ socket }) {
     if (!this.closers.has(socket)) return;
     const socket_closers = this.closers.get(socket);

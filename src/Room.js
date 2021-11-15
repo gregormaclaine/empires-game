@@ -1,11 +1,13 @@
 const ListenerCollection = require('./ListenerCollection');
 const LobbyRoomState = require('./RoomStates/RoomState');
 const ChooseCharacterState = require('./RoomStates/CharacterState');
+const GameState = require('./RoomStates/GameState');
 
 class Room {
   static ROOM_STATE_CODES = {
     lobby: LobbyRoomState,
-    characters: ChooseCharacterState
+    characters: ChooseCharacterState,
+    game: GameState
   }
 
   constructor({ io, room_code, player_name, socket, config, collapse }) {
@@ -101,12 +103,12 @@ class Room {
   }
 
   // ########## ROOM STATE MANAGEMENT ##########
-  change_state(room_state) {
+  change_state(room_state, params) {
     const NewRoomState = Room.ROOM_STATE_CODES[room_state];
     if (!NewRoomState) throw new Error(`Can't change room to non-existing state: '${room_state}'`);
 
     if (this.state) this.state.leave();
-    this.state = new NewRoomState(this);
+    this.state = new NewRoomState(this, params);
   }
 }
 
