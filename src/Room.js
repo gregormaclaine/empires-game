@@ -32,6 +32,12 @@ class Room {
     return 'room-' + this.room_code;
   }
 
+  // Get socket name for console logging
+  sn(socket) {
+    const name = this.player_names.get(socket);
+    return `socket<${socket.id.slice(0, 6)}>${name ? ` (${name})` : ''}`;
+  }
+
   get_players() {
     return this.sockets.map(socket => ({ 
       name: this.player_names.get(socket),
@@ -55,7 +61,7 @@ class Room {
     const players = this.get_players();
     socket.to(this.socket_room).emit('lobby:update-players', { players });
 
-    console.log(`socket<${socket.id.slice(0, 6)}> (${player_name}) has joined room<${this.room_code}>`);
+    console.log(`${this.sn(socket)} has joined room<${this.room_code}>`);
     return { players };
   }
 
@@ -77,7 +83,7 @@ class Room {
     const players = this.get_players();
     this.io.to(this.socket_room).emit('lobby:update-players', { players });
 
-    console.log(`socket<${socket.id.slice(0, 6)}> has left room<${this.room_code}>`);
+    console.log(`${this.sn(socket)} has left room<${this.room_code}>`);
   }
 
   // ########## SOCKET LISTENERS HANDLERS ##########
