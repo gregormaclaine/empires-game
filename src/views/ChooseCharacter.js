@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
 import { Button } from '../components';
 import * as socket from '../socket';
 import { game_starting, submit_character_name } from '../store/game_slice';
-import { leave_lobby } from '../store/room_slice';
 
-function JoinView() {
+function ChooseCharacterView() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { room, game } = useSelector(({room, game}) => ({room, game}));
@@ -27,11 +25,6 @@ function JoinView() {
 
   useEffect(() => {
     const closers = [
-      socket.listen('lobby:kicked', ({ message }) => {
-        dispatch(leave_lobby());
-        history.replace('/');
-        toast.error(message);
-      }),
       socket.listen('lobby:game_starting', () => {
         dispatch(game_starting());
         history.replace('/lobby');
@@ -57,4 +50,4 @@ function JoinView() {
   );
 }
 
-export default JoinView;
+export default ChooseCharacterView;

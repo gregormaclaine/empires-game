@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import styled, { ThemeProvider } from 'styled-components';
 import { THEME } from './config';
 import { ChooseCharacterView, CreateView, GameView, HomeView, JoinView, LobbyView } from './views';
+import * as socket from './socket';
+import { useDispatch, useSelector } from 'react-redux';
+import { leave_lobby } from './store/room_slice';
 
 const Container = styled.div`
   width: 100vw;
@@ -16,6 +20,21 @@ const Container = styled.div`
 `;
 
 function App() {
+  const dispatch = useDispatch();
+  const room = useSelector(state => state.room);
+
+  useEffect(() => {
+    const closers = [
+      socket.listen('lobby:kicked', ({ message }) => {
+        if (room.status !== 'joined') return;
+        dispatch(leave_lobby());
+        window.location.href = '/#/';
+        toast.error(message);
+      })
+    ];
+    return () => closers.map(c => c());
+  });
+
   return (
     <ThemeProvider theme={THEME}>
       <Container>

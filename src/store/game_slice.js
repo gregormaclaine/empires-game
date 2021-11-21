@@ -7,6 +7,7 @@ export const game_slice = createSlice({
     state_status: '', // '' | 'between' | 'in'
     state: '', // '' | 'character-choosing' | 'game',
     character: null,
+    empires: [],
     error: null
   },
   reducers: {
@@ -14,7 +15,8 @@ export const game_slice = createSlice({
     beginning_character_picking: state => ({ ...state, state_status: 'between' }),
     begin_character_picking: state => ({ ...state, state_status: 'in', state: 'character-choosing' }),
     chosen_character: (state, { payload: character }) => ({ ...state, character, state_status: 'between' }),
-    start_game: state => ({ ...state, state: 'game', state_status: 'in' })
+    start_game: state => ({ ...state, state: 'game', state_status: 'in' }),
+    update_empires: (state, { payload: empires }) => ({ ...state, empires })
   }
 });
 
@@ -40,6 +42,10 @@ export const submit_character_name = character => dispatch => {
 
 export const game_starting = () => dispatch => {
   dispatch(SA.start_game());
+}
+
+export const update_empires = empires => dispatch => {
+  dispatch(SA.update_empires(empires));
 }
 
 export default game_slice.reducer;

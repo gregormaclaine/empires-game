@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { BackArrow, Button, LobbyPlayerTile } from '../components';
 import * as socket from '../socket';
@@ -57,11 +56,6 @@ function LobbyView() {
     const closers = [
       socket.listen('lobby:update-players', ({ players }) => {
         dispatch(update_players(players));
-      }),
-      socket.listen('lobby:kicked', ({ message }) => {
-        dispatch(leave_lobby());
-        history.replace('/');
-        toast.error(message);
       }),
       socket.listen('lobby:choose-character', () => {
         dispatch(begun_character_picking());
