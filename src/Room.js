@@ -13,7 +13,7 @@ class Room {
   constructor({ io, room_code, player_name, socket, config, collapse }) {
     this.io = io;
     this.room_code = room_code;
-    this.host = socket.id ;
+    this.host = socket.id;
     this.config = config;
     this.collapse = collapse;
     this.player_names = new WeakMap();
@@ -67,7 +67,7 @@ class Room {
     return { players };
   }
 
-  remove_player({ socket, from_disconnect }) {
+  remove_player({ socket, from_disconnect, update_players=true }) {
     if (!this.sockets.includes(socket)) throw new Error("Can't remove socket from room it's not in");
     
     this.sockets.splice(this.sockets.indexOf(socket), 1);
@@ -77,13 +77,16 @@ class Room {
       // When disconnecting, the socket is automatically removed from all rooms
       socket.leave(this.socket_room);
       this.listeners.remove_socket({ socket });
+      this.state.listeners.remove_socket({ socket });
     }
 
     if (this.sockets.length === 0) return this.collapse();
 
     // Update other clients on user leaving
-    const players = this.get_players();
-    this.io.to(this.socket_room).emit('lobby:update-players', { players });
+    if (update_players) {
+      const players = this.get_players();
+      this.io.to(this.socket_room).emit('lobby:update-players', { players });
+    }
 
     console.log(`${this.sn(socket)} has left room<${this.room_code}>`);
   }
