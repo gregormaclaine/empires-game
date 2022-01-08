@@ -72,6 +72,7 @@ class GameState extends RoomState {
     });
 
     this.listeners.apply(socket, 'game:request-update-empires', ({ }, callback) => {
+      if (!this.empires) callback({ status: 'fail', message: 'No Empires Found' });
       callback({ status: 'success', empires: this.empires.get_empires_state() });
     });
   }

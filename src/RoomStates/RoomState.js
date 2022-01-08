@@ -20,7 +20,7 @@ class RoomState {
     if (is_host) {
       this.listeners.apply(socket, 'lobby:start-character-stage', ({}, callback) => {
         this.room.change_state('characters', {});
-        socket.to(this.room.socket_room).emit('lobby:choose-character');
+        socket.to(this.room.socket_room).emit('character:choose-character');
         callback({ status: 'success' });
       });
     }
