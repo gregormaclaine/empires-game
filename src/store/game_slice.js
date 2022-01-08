@@ -35,7 +35,7 @@ export const begun_character_picking = () => dispatch => {
 }
 
 export const submit_character_name = character => dispatch => {
-  socket.emit('lobby:choose-character', { character }, ({ status, message }) => {
+  socket.emit('character:choose-character', { character }, ({ status, message }) => {
     dispatch(status === 'success' ? SA.chosen_character(character) : SA.set_error(message));
   });
 }

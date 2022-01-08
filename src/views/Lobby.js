@@ -57,7 +57,7 @@ function LobbyView() {
       socket.listen('lobby:update-players', ({ players }) => {
         dispatch(update_players(players));
       }),
-      socket.listen('lobby:choose-character', () => {
+      socket.listen('character:choose-character', () => {
         dispatch(begun_character_picking());
         history.replace('/choose-character');
       })

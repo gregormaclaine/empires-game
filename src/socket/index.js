@@ -1,9 +1,10 @@
 import io from 'socket.io-client';
+import { SERVER_ADDRESS } from '../config';
 
 let socket;
 
 export const initialise = () => {
-  socket = io('http://localhost:3001');
+  socket = io(SERVER_ADDRESS);
   console.log(`Connecting socket...`);
 }
 

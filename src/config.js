@@ -5,3 +5,5 @@ export const THEME = {
   yellow: '#ffb30f',
   red: '#fd151b'
 };
+
+export const SERVER_ADDRESS = 'http://localhost:3001' || 'http://172.20.10.2:3001';
