@@ -79,7 +79,7 @@ function ChooseCharacterView() {
   });
 
   function submit_character() {
-    if (submitted) return;
+    if (!character || submitted) return;
     dispatch(submit_character_name(character));
     set_submitted(true);
   }

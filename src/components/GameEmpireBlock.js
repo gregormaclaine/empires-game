@@ -40,10 +40,17 @@ const BlockTitle = styled.h1`
   width: 100%;
 `;
 
-const SubjectsContainer = styled.div``;
+const SubjectsContainer = styled.table`
+  width: 90%;
+  margin: auto;
+`;
 
-const Subject = styled.p`
+const Subject = styled.tr`
   font-weight: 600;
+
+  &>td:last-child {
+    color: ${props => props.theme.yellow};
+  }
 `;
 
 function GameEmpireBlock({ empire, onClick, hoverable }) {
@@ -59,9 +66,9 @@ function GameEmpireBlock({ empire, onClick, hoverable }) {
       <SubjectsContainer>
         {empire.subjects.map(subject => (
           <Subject key={subject.id}>
-            <span>{to_name(subject.id)}</span>
-            <span>was</span>
-            <span>{subject.character}</span>
+            <td>{to_name(subject.id)}</td>
+            <td>was</td>
+            <td>{subject.character}</td>
           </Subject>
         ))}
       </SubjectsContainer>
