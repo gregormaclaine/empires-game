@@ -60,10 +60,15 @@ class GameState extends RoomState {
         if (winner) {
           this.room.io.to(this.room.socket_room).emit('game:game-ended', { winner });
           this.shutdown();
+        } else {
+          // Ask the same player again
+          this.asked_socket = null;
+          this.asking_socket.emit('game:choose-target');
         }
 
       } else {
 
+        // Ask a new player
         this.asking_socket = this.asked_socket;
         this.asked_socket = null;
         this.asking_socket.emit('game:choose-target');
