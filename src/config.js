@@ -6,4 +6,4 @@ export const THEME = {
   red: '#fd151b'
 };
 
-export const SERVER_ADDRESS = 'http://localhost:3001' || 'http://172.20.10.2:3001';
+export const SERVER_ADDRESS = `http://${window.location.hostname || 'localhost'}:3001`;
