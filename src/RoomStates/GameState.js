@@ -7,7 +7,6 @@ class GameState extends RoomState {
     this.characters = params.characters;
 
     this.empires = new EmpiresTracker(this);
-    const empires = this.empires.get_empires_state();
 
     this.waiting_state = 'target'; // 'target' | 'answer'
 
