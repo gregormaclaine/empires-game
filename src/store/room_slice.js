@@ -15,7 +15,7 @@ export const room_slice = createSlice({
     joining_game: state => ({ ...state, status: 'joining' }),
     creating_game: state => ({ ...state, status: 'joining', is_host: true }),
     joined_game: (state, { payload: { room_code, players } }) => {
-      return { ...state, status: 'joined', code: room_code, players };
+      return { ...state, status: 'joined', code: room_code, players, error: null };
     },
     update_players: (state, { payload: players }) => ({ ...state, players }),
 

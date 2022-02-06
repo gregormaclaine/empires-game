@@ -86,7 +86,7 @@ function ChooseCharacterView() {
 
   function begin_character_showing() {
     console.log(speak);
-    speak({ text: all_characters_list.join('\n') });
+    speak({ text: all_characters_list.join('!., ') });
     set_show_characters(true);
   }
 
@@ -103,7 +103,6 @@ function ChooseCharacterView() {
           <input type='text' value={character} disabled={submitted}
             onChange={e => set_character(e.target.value)}/>
           <Button onClick={submit_character}>Submit Character</Button>
-          {game.error && <p>Error: {game.error}</p>}
         </div>
       )}
 
