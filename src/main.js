@@ -11,8 +11,14 @@ const io = new Server(server, {
 const { PORT, DEBUG } = require('./config');
 const GameManager = require('./GameManager');
 
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
-  res.send('Empires Game Server');
+  res.status(200).send('Empires Game Server');
+});
+
+app.get('/favicon.ico', (req, res) => {
+  res.status(200).sendFile('favicon.ico');
 });
 
 const game_manager = new GameManager({ io });
