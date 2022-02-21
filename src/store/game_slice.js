@@ -15,7 +15,7 @@ export const game_slice = createSlice({
     beginning_character_picking: state => ({ ...state, state_status: 'between' }),
     begin_character_picking: state => ({ ...state, state_status: 'in', state: 'character-choosing' }),
     chosen_character: (state, { payload: character }) => ({ ...state, character, state_status: 'between' }),
-    start_game: state => ({ ...state, state: 'game', state_status: 'in' }),
+    start_game: state => ({ ...state, state: 'game', state_status: 'in', empires: [] }),
     update_empires: (state, { payload: empires }) => ({ ...state, empires })
   }
 });

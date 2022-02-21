@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { useSpeechSynthesis } from 'react-speech-kit';
 import styled from 'styled-components';
 import { Button } from '../components';
 import * as socket from '../socket';
 import { game_starting, submit_character_name } from '../store/game_slice';
-import { useSpeechSynthesis } from 'react-speech-kit';
 
 const ShowCharactersBlock = styled.div`
   margin-top: 2em;
