@@ -16,9 +16,13 @@ const ShowCharactersBlock = styled.div`
   text-align: center;
   margin: 0 4em;
 
-  & > h3 { margin-bottom: 0.5em; }
+  & > h3 {
+    margin-bottom: 0.5em;
+  }
 
-  & > ${Button} { margin-top: 2em; }
+  & > ${Button} {
+    margin-top: 2em;
+  }
 `;
 
 const CharactersList = styled.div`
@@ -44,10 +48,12 @@ const CharacterItem = styled.div`
 function ChooseCharacterView() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { speak } = useSpeechSynthesis({ onEnd: () => {
-    console.log('TEMP: speak func ended');
-    set_show_characters(null);
-  } });
+  const { speak } = useSpeechSynthesis({
+    onEnd: () => {
+      console.log('TEMP: speak func ended');
+      set_show_characters(null);
+    }
+  });
   const { room, game } = useSelector(({ room, game }) => ({ room, game }));
   const [character, set_character] = useState('');
   const [submitted, set_submitted] = useState(false);
@@ -96,12 +102,15 @@ function ChooseCharacterView() {
 
   return (
     <div>
-      
       {all_characters_list.length === 0 && !show_characters && (
         <div>
           <label>Character Name:</label>
-          <input type='text' value={character} disabled={submitted}
-            onChange={e => set_character(e.target.value)}/>
+          <input
+            type='text'
+            value={character}
+            disabled={submitted}
+            onChange={e => set_character(e.target.value)}
+          />
           <Button onClick={submit_character}>Submit Character</Button>
         </div>
       )}
@@ -109,8 +118,13 @@ function ChooseCharacterView() {
       {all_characters_list.length > 0 && show_characters === false && (
         <ShowCharactersBlock>
           <h3>All players have chosen their characters</h3>
-          <p>Ensure that all players can see your screen and when ready press the button below to show all characters in a random order.</p>
-          <Button yellow onClick={begin_character_showing}>Show Characters</Button>
+          <p>
+            Ensure that all players can see your screen and when ready press the
+            button below to show all characters in a random order.
+          </p>
+          <Button yellow onClick={begin_character_showing}>
+            Show Characters
+          </Button>
         </ShowCharactersBlock>
       )}
 
@@ -127,7 +141,9 @@ function ChooseCharacterView() {
       {show_characters === null && (
         <ShowCharactersBlock>
           <h3>Press the button below to begin the game</h3>
-          <Button green onClick={begin_game}>Begin Game</Button>
+          <Button green onClick={begin_game}>
+            Begin Game
+          </Button>
         </ShowCharactersBlock>
       )}
     </div>

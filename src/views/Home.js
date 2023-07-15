@@ -22,12 +22,12 @@ function HomeView() {
         <Button yellow>
           <span>Join a Game</span>
         </Button>
-      </ButtonLink> 
+      </ButtonLink>
       <ButtonLink to='/create'>
         <Button>
           <span>Create a New Game</span>
         </Button>
-      </ButtonLink> 
+      </ButtonLink>
     </ButtonWrapper>
   );
 }

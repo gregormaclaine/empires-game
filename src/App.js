@@ -1,9 +1,21 @@
 import { useEffect } from 'react';
-import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Redirect,
+  Route,
+  Switch
+} from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import styled, { ThemeProvider } from 'styled-components';
 import { THEME } from './config';
-import { ChooseCharacterView, CreateView, GameView, HomeView, JoinView, LobbyView } from './views';
+import {
+  ChooseCharacterView,
+  CreateView,
+  GameView,
+  HomeView,
+  JoinView,
+  LobbyView
+} from './views';
 import * as socket from './socket';
 import { useDispatch, useSelector } from 'react-redux';
 import { leave_lobby } from './store/room_slice';
@@ -41,7 +53,11 @@ function App() {
         <Router>
           <Switch>
             <Route path='/game' exact component={GameView} />
-            <Route path='/choose-character' exact component={ChooseCharacterView} />
+            <Route
+              path='/choose-character'
+              exact
+              component={ChooseCharacterView}
+            />
             <Route path='/lobby' exact component={LobbyView} />
             <Route path='/create' exact component={CreateView} />
             <Route path='/join' exact component={JoinView} />
@@ -51,7 +67,7 @@ function App() {
             </Route>
           </Switch>
         </Router>
-        <ToastContainer position="top-center" autoClose={4000} />
+        <ToastContainer position='top-center' autoClose={4000} />
       </Container>
     </ThemeProvider>
   );

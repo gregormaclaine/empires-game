@@ -18,5 +18,5 @@ export default function BackArrow({ onClick }) {
     <Wrapper>
       <Image alt='Leave' src={back_arrow_img} onClick={onClick} />
     </Wrapper>
-  )
+  );
 }

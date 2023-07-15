@@ -27,12 +27,15 @@ const BlockWrapper = styled.div`
     padding: 0.5em 1em;
   }
 
-  ${props => props.hoverable ? `
+  ${props =>
+    props.hoverable
+      ? `
     cursor: pointer;
     &:hover {
       background-color: #${shade(props.theme.lightblue, 0.1)};
     }
-  ` : ''}
+  `
+      : ''}
 `;
 
 const BlockTitle = styled.h1`
@@ -48,7 +51,7 @@ const SubjectsContainer = styled.table`
 const Subject = styled.tr`
   font-weight: 600;
 
-  &>td:last-child {
+  & > td:last-child {
     color: ${props => props.theme.yellow};
   }
 `;

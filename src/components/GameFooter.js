@@ -86,7 +86,10 @@ const CharacterInfo = styled.div`
       align-items: center;
     }
 
-    & > h2:hover, & > span:hover { opacity: 0.9; }
+    & > h2:hover,
+    & > span:hover {
+      opacity: 0.9;
+    }
   }
 `;
 
@@ -104,25 +107,35 @@ function GameFooter({ status }) {
   return (
     <Wrapper>
       <UsernameInfo>
-        <span>Username: <Username>{self_player && self_player.name}</Username></span>
-        <span>Room Code: <RoomCode>{room.code}</RoomCode></span>
+        <span>
+          Username: <Username>{self_player && self_player.name}</Username>
+        </span>
+        <span>
+          Room Code: <RoomCode>{room.code}</RoomCode>
+        </span>
       </UsernameInfo>
       <StatusInfo>
-        {({
-          'waiting': '',
-          'choosing-target': 'You should now choose a person to ask about their character',
-          'answering': 'It is your turn to give your answer',
-          'game-ended': 'Thanks for playing! Maybe make a new lobby and play again :D'
-        })[status] || ''}
+        {{
+          waiting: '',
+          'choosing-target':
+            'You should now choose a person to ask about their character',
+          answering: 'It is your turn to give your answer',
+          'game-ended':
+            'Thanks for playing! Maybe make a new lobby and play again :D'
+        }[status] || ''}
       </StatusInfo>
       <CharacterInfo>
         <span>Your Character</span>
         <div onClick={() => set_show_character(!show_character)}>
-          {show_character ? <CharacterName>{game.character}</CharacterName> : <span>Click to Show</span>}
+          {show_character ? (
+            <CharacterName>{game.character}</CharacterName>
+          ) : (
+            <span>Click to Show</span>
+          )}
         </div>
       </CharacterInfo>
     </Wrapper>
-  )
+  );
 }
 
 export default GameFooter;

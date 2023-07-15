@@ -1,6 +1,7 @@
 import colors from '../assets/colors.json';
 
-const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const alphabet =
+  'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 /**
  * Should take in a username and return a colour that can be used in CSS.
@@ -13,7 +14,7 @@ export default function main(username, id) {
 
   // Caculated a number based on the characters in the unique string and their placement
   const code = characters.reduce((acc, cur, i) => {
-    const addition = Math.max(alphabet.indexOf(cur) + 1, 0) * i
+    const addition = Math.max(alphabet.indexOf(cur) + 1, 0) * i;
     return acc + addition;
   }, 0);
 

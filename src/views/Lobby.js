@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-import styled from 'styled-components';
-import { BackArrow, Button, LobbyPlayerTile } from '../components';
-import * as socket from '../socket';
-import { begin_character_picking, begun_character_picking } from '../store/game_slice';
-import { leave_lobby, update_players } from '../store/room_slice';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import styled from "styled-components";
+import { BackArrow, Button, LobbyPlayerTile } from "../components";
+import * as socket from "../socket";
+import {
+  begin_character_picking,
+  begun_character_picking,
+} from "../store/game_slice";
+import { leave_lobby, update_players } from "../store/room_slice";
 
 const RoomCodeWrapper = styled.div`
   width: 100%;
@@ -18,7 +21,7 @@ const RoomCodeWrapper = styled.div`
 const RoomCode = styled.span`
   font-family: Dosis;
   font-weight: 800;
-  font-size: 5rem;
+  font-size: 5vw;
   color: white;
   opacity: 0.95;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
@@ -49,37 +52,39 @@ const StartButton = styled(Button)`
 function LobbyView() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const room = useSelector(state => state.room);
-  const admin = room.players.find(p => p.id === socket.id())?.host || false;
+  const room = useSelector((state) => state.room);
+  const admin = room.players.find((p) => p.id === socket.id())?.host || false;
 
   useEffect(() => {
     const closers = [
-      socket.listen('lobby:update-players', ({ players }) => {
+      socket.listen("lobby:update-players", ({ players }) => {
         dispatch(update_players(players));
       }),
-      socket.listen('character:choose-character', () => {
+      socket.listen("character:choose-character", () => {
         dispatch(begun_character_picking());
-        history.replace('/choose-character');
-      })
+        history.replace("/choose-character");
+      }),
     ];
-    return () => closers.map(c => c());
+    return () => closers.map((c) => c());
   });
 
   useEffect(() => {
-    if (room.status !== 'joined' || !room.code) history.replace('/');
+    if (room.status !== "joined" || !room.code) history.replace("/");
   }, [room, history]);
 
   const exit = () => {
-    socket.emit('lobby:leave');
+    socket.emit("lobby:leave");
     dispatch(leave_lobby());
-    history.replace('/');
-  }
+    history.replace("/");
+  };
 
   const start = () => {
-    dispatch(begin_character_picking(({ status }) => {
-      if (status === 'success') history.replace('/choose-character');
-    }));
-  }
+    dispatch(
+      begin_character_picking(({ status }) => {
+        if (status === "success") history.replace("/choose-character");
+      })
+    );
+  };
 
   return (
     <div>
@@ -88,7 +93,7 @@ function LobbyView() {
         <RoomCode>{room.code}</RoomCode>
       </RoomCodeWrapper>
       <PlayerTilesWrapper>
-        {room.players.map(player => (
+        {room.players.map((player) => (
           <LobbyPlayerTile {...player} key={player.id} admin={admin} />
         ))}
       </PlayerTilesWrapper>

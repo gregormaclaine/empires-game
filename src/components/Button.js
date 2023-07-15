@@ -23,12 +23,11 @@ export default styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  
 
   &:hover {
     background-color: #${props => shade(background_color(props), -0.1)};
   }
-  
+
   color: ${font_color};
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
   white-space: nowrap;

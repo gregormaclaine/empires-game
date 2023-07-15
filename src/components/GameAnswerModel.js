@@ -75,13 +75,17 @@ const Option = styled(Button)`
 function GameAnswerModel({ submit, asker }) {
   const room = useSelector(state => state.room);
 
-  const asker_name = room.players.find(p => p.id === asker)?.name || <i>Unknown</i>;
+  const asker_name = room.players.find(p => p.id === asker)?.name || (
+    <i>Unknown</i>
+  );
 
   return (
     <ModelWrapper>
       <Model>
         <ModelTitle>{asker_name} will now guess your character</ModelTitle>
-        <ModelSubtitle>Please select whether they are correct once they have asked</ModelSubtitle>
+        <ModelSubtitle>
+          Please select whether they are correct once they have asked
+        </ModelSubtitle>
         <Options>
           <Option red onClick={() => submit(true)}>
             <span>Correct</span>

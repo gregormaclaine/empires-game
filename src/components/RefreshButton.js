@@ -18,5 +18,5 @@ export default function RefreshButton({ onClick }) {
     <Wrapper>
       <Image alt='Refresh' src={refresh_icon} onClick={onClick} />
     </Wrapper>
-  )
+  );
 }

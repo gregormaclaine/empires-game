@@ -13,7 +13,8 @@ const Wrapper = styled.div`
   justify-items: center;
   border-radius: 5px;
   padding: 8px 20px;
-  background-color: ${({ me }) => me ? 'rgba(255, 185, 0, 0.95)' : 'rgba(255, 255, 255, 0.9)'};
+  background-color: ${({ me }) =>
+    me ? 'rgba(255, 185, 0, 0.95)' : 'rgba(255, 255, 255, 0.9)'};
 `;
 
 const Profile = styled.div`
@@ -27,7 +28,9 @@ const Profile = styled.div`
   justify-content: center;
   align-items: center;
 
-  &:hover > img { display: block; }
+  &:hover > img {
+    display: block;
+  }
 `;
 
 const DeleteIcon = styled.img`
@@ -56,12 +59,18 @@ const LobbyPlayerTile = ({ name, id, host, admin }) => {
   return (
     <Wrapper me={is_me}>
       <Profile color={get_color_from_name(name, id)}>
-        {admin && !is_me && <DeleteIcon src={cross_img} alt='Kick User' onClick={() => dispatch(kick_player(id))} />}
-      </Profile> 
+        {admin && !is_me && (
+          <DeleteIcon
+            src={cross_img}
+            alt='Kick User'
+            onClick={() => dispatch(kick_player(id))}
+          />
+        )}
+      </Profile>
       <Name>{name}</Name>
       {host && <HostCrown src={crown_img} alt='Host' />}
     </Wrapper>
   );
-}
+};
 
 export default LobbyPlayerTile;
